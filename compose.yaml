@@ -1,7 +1,7 @@
 services:
   client:
     build:
-      context: /Client-master
+      context: /Client
     image: client_image:latest
     ports:
       - 8080:8080
@@ -10,14 +10,14 @@ services:
 
   server:
     build:
-      context: /Server-master
+      context: /Server
     image: server_image:latest
     ports:
       - 8081:8081
 
   client_admin:
     build:
-      context: /ClientAdmin-master
+      context: /ClientAdmin
     image: client_admin_image:latest
     ports:
       - 8082:8082
