@@ -34,7 +34,7 @@ public class ServerController {
     }
 
     @Operation(
-            summary = "Получить всех пользователей",
+            summary = "Получить пользователей из бд",
             description = "Получает всех пользователей из базы данных"
     )
     @GetMapping("/users")
