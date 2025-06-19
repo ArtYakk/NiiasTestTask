@@ -18,13 +18,13 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/server_api")
-public class Controller {
+public class ServerController {
     UserService userService;
     MessageService messageService;
     ActivityService activityService;
 
     @Autowired
-    public Controller(UserService userService, MessageService messageService, ActivityService activityService) {
+    public ServerController(UserService userService, MessageService messageService, ActivityService activityService) {
         this.userService = userService;
         this.messageService = messageService;
         this.activityService = activityService;
