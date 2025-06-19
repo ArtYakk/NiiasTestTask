@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/admin_api")
 @Tag(name = "User API", description = "Управление пользователями и сообщениями")
 public class ClientAdminController {
-private static final URI BASE_URI = URI.create("http://server:8081/server_api");
+private static final URI BASE_URI = URI.create("http://server:8081/server_api/");
 
     RestTemplate restTemplate;
 
@@ -37,7 +37,7 @@ private static final URI BASE_URI = URI.create("http://server:8081/server_api");
     @ApiResponse(responseCode = "200", description = "Пользователи найдены")
     public ResponseEntity<List<UserResponse>> getAllRegisteredUsers(){
         return restTemplate.exchange(
-                BASE_URI.resolve("/users"),
+                BASE_URI.resolve("users"),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<UserResponse>>() {}
@@ -54,7 +54,7 @@ private static final URI BASE_URI = URI.create("http://server:8081/server_api");
     @ApiResponse(responseCode = "200", description = "Пользователи найдены")
     public ResponseEntity<List<UserResponse>> getActiveUsers(){
         return restTemplate.exchange(
-                BASE_URI.resolve("/users/active"),
+                BASE_URI.resolve("users/active"),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<UserResponse>>() {}
