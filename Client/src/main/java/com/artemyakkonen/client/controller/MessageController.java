@@ -16,7 +16,6 @@ public class MessageController {
 
     MessageProducer messageProducer;
 
-    @Autowired
     public MessageController(MessageProducer messageProducer, IdentifierService identifierService){
         this.messageProducer = messageProducer;
     }

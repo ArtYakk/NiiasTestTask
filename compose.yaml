@@ -11,6 +11,9 @@ services:
       watch:
         - path: ./Client
           action: rebuild
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
 
   server:
     build:

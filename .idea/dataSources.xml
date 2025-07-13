@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="microservices_database@109.120.155.136" uuid="42f5c70b-34c0-4472-83be-e2932b329991">
+    <data-source source="LOCAL" name="microservices_database@109.120.155.136" uuid="a7a067e2-b4a4-4b37-9877-ff53e0a6dfb2">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/Server/src/main/resources/application.properties</remarks>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://109.120.155.136:5432/microservices_database</jdbc-url>
       <jdbc-additional-properties>

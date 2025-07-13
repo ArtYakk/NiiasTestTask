@@ -1,6 +1,36 @@
+server:
+  port: 8081
+
 spring:
+  application:
+    name: Server
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+    hibernate:
+      ddl-auto: update
+
   rabbitmq:
     host: 109.120.155.136
     port: 5672
     username: artem
     password: artemca1225
+
+  data:
+    jdbc:
+      dialect: postgresql
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://109.120.155.136:5432/microservices_database
+    username: owner
+    password: artemca
+
+
+#spring.jpa.show-sql=true
+#spring.jpa.properties.hibernate.format_sql=true
+

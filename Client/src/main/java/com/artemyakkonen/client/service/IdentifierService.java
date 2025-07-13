@@ -1,5 +1,8 @@
 package com.artemyakkonen.client.service;
 
+import com.artemyakkonen.client.util.AnsiColors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -7,13 +10,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
 
+
+@Slf4j
 @Service
 public class IdentifierService {
-    private static final String ID_FILE = "/app/data/service-id.txt"; // Локальный файл для хранения ID
+    private final String ID_FILE;
     private final String serviceId;
 
-    public IdentifierService() {
+    public IdentifierService(@Value("${spring.identifier.path}") String ID_FILE) {
+        this.ID_FILE = ID_FILE;
         this.serviceId = loadOrGenerateId();
+        log.info(AnsiColors.blackOnBlue("Путь к фалу с ID: " + ID_FILE));
     }
 
     private String loadOrGenerateId() {
@@ -22,7 +29,7 @@ public class IdentifierService {
             try {
                 return Files.readString(file.toPath()).trim();
             } catch (IOException e) {
-                throw new RuntimeException("Error when reading file", e);
+                log.info("Ошибка чтения файла, путь: {}", ID_FILE);
             }
         }
         String newId = UUID.randomUUID().toString();

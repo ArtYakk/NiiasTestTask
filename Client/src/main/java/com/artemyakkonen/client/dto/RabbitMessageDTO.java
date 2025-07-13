@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
+@Data
 @Getter
 @Setter
 @AllArgsConstructor

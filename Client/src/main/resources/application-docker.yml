@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: Client
+
+  rabbitmq:
+    host: 109.120.155.136
+    port: 5672
+    username: artem
+    password: artemca1225
+
+  identifier:
+    path: /app/data/service-id.txt
+
+
+
+
