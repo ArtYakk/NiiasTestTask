@@ -1,6 +1,6 @@
 package com.artemyakkonen.client.service;
 
-import com.artemyakkonen.client.util.AnsiColors;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,34 +15,32 @@ import java.util.UUID;
 @Service
 public class IdentifierService {
     private final String ID_FILE;
+    @Getter
     private final String serviceId;
 
-    public IdentifierService(@Value("${spring.identifier.path}") String ID_FILE) {
+    public IdentifierService(@Value("${spring.identifier.path}") String ID_FILE) throws IOException {
         this.ID_FILE = ID_FILE;
         this.serviceId = loadOrGenerateId();
-        log.info(AnsiColors.blackOnBlue("Путь к фалу с ID: " + ID_FILE));
     }
 
-    private String loadOrGenerateId() {
+    private String loadOrGenerateId() throws IOException {
         File file = new File(ID_FILE);
         if (file.exists()) {
             try {
                 return Files.readString(file.toPath()).trim();
             } catch (IOException e) {
-                log.info("Ошибка чтения файла, путь: {}", ID_FILE);
+                log.error("Ошибка чтения файла, путь: {}", ID_FILE);
+                throw new IOException("Ошибка чтения файла, путь: " + ID_FILE, e);
             }
         }
         String newId = UUID.randomUUID().toString();
         try {
             Files.writeString(file.toPath(), newId);
         } catch (IOException e) {
-            throw new RuntimeException("Error when saving file", e);
+            log.error("Ошибка записи файла, путь: {}", ID_FILE);
+            throw new RuntimeException("Ошибка записи файла, путь: " + ID_FILE, e);
         }
         return newId;
-    }
-
-    public String getServiceId() {
-        return serviceId;
     }
 }
 
