@@ -4,7 +4,6 @@ import com.artemyakkonen.server.dto.ActivityRequest;
 import com.artemyakkonen.server.dto.MessageRequest;
 import com.artemyakkonen.server.dto.UserRequest;
 import com.artemyakkonen.server.dto.UserResponse;
-import com.artemyakkonen.server.dto.rabbit.RabbitMessageDTO;
 
 import com.artemyakkonen.server.entity.ActivityType;
 import com.artemyakkonen.server.service.ActivityService;
@@ -34,7 +33,7 @@ public class MessageConsumerService {
     }
 
     @RabbitListener(queues = "myQueue")
-    public void receiveMessage(RabbitMessageDTO rabbitMessage) {
+    public void receiveMessage(RabbitMessage rabbitMessage) {
         log.info(AnsiColors.blackOnBlue("Received: " + rabbitMessage.getBody()));
         UserResponse userResponse = userService.getUserByUuid(rabbitMessage.getUuid());
 

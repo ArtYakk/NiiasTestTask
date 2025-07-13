@@ -1,6 +1,5 @@
 package com.artemyakkonen.client.rabbbitmq;
 
-import com.artemyakkonen.client.dto.RabbitMessageDTO;
 import com.artemyakkonen.client.service.IdentifierService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +25,13 @@ public class ScheduledMessageProducer {
 
     @Scheduled(fixedRate = 10000)
     public void sendScheduledMessage() {
-        RabbitMessageDTO rabbitMessageDTO = RabbitMessageDTO.builder()
+        RabbitMessage rabbitMessage = RabbitMessage.builder()
                 .uuid(identifierService.getServiceId())
                 .timestamp(LocalDateTime.now(ZoneId.of("Europe/Moscow")))
                 .body("Activity")
                 .build();
-        rabbitTemplate.convertAndSend("myExchange", "routingKey", rabbitMessageDTO);
-        System.out.println("Sent: " + rabbitMessageDTO.getBody());
+        rabbitTemplate.convertAndSend("myExchange", "routingKey", rabbitMessage);
+        System.out.println("Sent: " + rabbitMessage.getBody());
     }
 }
 
