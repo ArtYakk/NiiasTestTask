@@ -1,33 +1,15 @@
 package com.artemyakkonen.server.mapper;
 
-
 import com.artemyakkonen.server.dto.MessageRequest;
 import com.artemyakkonen.server.dto.MessageResponse;
 import com.artemyakkonen.server.entity.Message;
+import org.mapstruct.Mapper;
 
-public class MessageMapper {
+import java.util.List;
 
-    public static MessageResponse toResponse(Message message) {
-        if (message == null) {
-            return null;
-        }
-
-        return MessageResponse.builder()
-                .id(message.getId())
-                .user_id(message.getUser() != null ? message.getUser().getId() : null)
-                .body(message.getBody())
-                .time(message.getTime())
-                .build();
-    }
-
-    public static Message fromRequest(MessageRequest messageRequest) {
-        if (messageRequest == null) {
-            return null;
-        }
-
-        return Message.builder()
-                .body(messageRequest.getBody())
-                .time(messageRequest.getTime())
-                .build();
-    }
+@Mapper(componentModel = "spring")
+public interface MessageMapper {
+    MessageResponse toResponse(Message message);
+    Message fromRequest(MessageRequest messageRequest);
+    List<MessageResponse> toResponseList(List<Message> messageList);
 }

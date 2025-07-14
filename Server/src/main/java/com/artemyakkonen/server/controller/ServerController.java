@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "my_server_methods") // Адрес сваггера: swagger-ui.html
 @Slf4j
@@ -61,8 +62,8 @@ public class ServerController {
 
         activityService.saveAdminsActivity(ActivityType.GET_MESSAGES_BY_USER_ID);
 
-        User user = userService.getUserById(requestedId);
-        if(user == null) {
+        Optional<User> user = userService.getUserById(requestedId);
+        if(user.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(messageService.getMessagesByUserId(requestedId));
@@ -74,8 +75,8 @@ public class ServerController {
 
         activityService.saveAdminsActivity(ActivityType.DELETE_USER_BY_ID);
 
-        User user = userService.getUserById(requestedId);
-        if(user != null) {
+        Optional<User> user = userService.getUserById(requestedId);
+        if(user.isPresent()) {
             userService.deleteUserById(requestedId);
             return ResponseEntity.noContent().build();
         }

@@ -16,6 +16,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 
 @Slf4j
 @Service
@@ -35,9 +38,11 @@ public class MessageConsumerService {
     @RabbitListener(queues = "myQueue")
     public void receiveMessage(RabbitMessage rabbitMessage) {
         log.info(AnsiColors.blackOnBlue("Received: " + rabbitMessage.getBody()));
-        UserResponse userResponse = userService.getUserByUuid(rabbitMessage.getUuid());
 
-        if (userResponse != null) {
+        Optional<UserResponse> userResponseOptional = userService.getUserByUuid(rabbitMessage.getUuid());
+
+        if (userResponseOptional.isPresent()) {
+            UserResponse userResponse = userResponseOptional.get();
             MessageRequest messageRequest = MessageRequest.builder()
                     .user_id(userResponse.getId())
                     .body(rabbitMessage.getBody())

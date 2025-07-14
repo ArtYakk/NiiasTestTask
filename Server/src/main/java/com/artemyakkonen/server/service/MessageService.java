@@ -11,25 +11,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class MessageService {
-    MessageRepository messageRepository;
-    UserService userService;
+    private final MessageRepository messageRepository;
+    private final UserService userService;
+    private final MessageMapper messageMapper;
 
     @Autowired
-    public MessageService(MessageRepository messageRepository, UserService userService) {
+    public MessageService(MessageRepository messageRepository, UserService userService, MessageMapper messageMapper) {
         this.messageRepository  = messageRepository;
         this.userService = userService;
+        this.messageMapper = messageMapper;
     }
 
     public List<MessageResponse> getMessagesByUserId(Long userId) {
-        return messageRepository.findByUser_Id(userId).stream().map(MessageMapper::toResponse).collect(Collectors.toList());
+        return messageMapper.toResponseList(messageRepository.findByUser_Id(userId));//messageRepository.findByUser_Id(userId).stream().map(MessageMapper1::toResponse).collect(Collectors.toList());
     }
 
     public MessageResponse getMessageById(Long userId) {
-        return MessageMapper.toResponse(messageRepository.findById(userId).orElse(null));
+        return messageMapper.toResponse(messageRepository.findById(userId).orElse(null)); //MessageMapper1.toResponse(messageRepository.findById(userId).orElse(null));
     }
 
     @Transactional
@@ -39,13 +41,14 @@ public class MessageService {
 
     @Transactional
    public MessageResponse saveMessage(Long userId, MessageRequest messageRequest) {
-        User user = userService.getUserById(userId);
-        if(user == null) {
+        Optional<User> userOptional = userService.getUserById(userId);
+        if(userOptional.isEmpty()) {
             return null;
         }
-        Message message = MessageMapper.fromRequest(messageRequest);
+        User user = userOptional.get();
+        Message message = messageMapper.fromRequest(messageRequest); //MessageMapper1.fromRequest(messageRequest);
         user.addMessage(message);
-        return MessageMapper.toResponse(messageRepository.save(message));
+        return messageMapper.toResponse(messageRepository.save(message)); //MessageMapper1.toResponse(messageRepository.save(message));
    }
 
 

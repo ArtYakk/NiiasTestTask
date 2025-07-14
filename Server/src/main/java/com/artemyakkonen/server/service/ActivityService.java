@@ -8,34 +8,36 @@ import com.artemyakkonen.server.entity.ActivityType;
 import com.artemyakkonen.server.entity.User;
 import com.artemyakkonen.server.mapper.ActivityMapper;
 import com.artemyakkonen.server.repository.ActivityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 
 @Service
 public class ActivityService {
-    ActivityRepository activityRepository;
-    UserService userService;
+   private final ActivityRepository activityRepository;
+   private final UserService userService;
+   private final ActivityMapper activityMapper;
 
-    @Autowired
-    public ActivityService(ActivityRepository activityRepository, UserService userService) {
+    public ActivityService(ActivityRepository activityRepository, UserService userService, ActivityMapper activityMapper) {
         this.activityRepository  = activityRepository;
         this.userService = userService;
+        this.activityMapper = activityMapper;
     }
 
     @Transactional
     public ActivityResponse saveActivity(Long userId, ActivityRequest activityRequest) {
-        User user = userService.getUserById(userId);
-        if(user == null) {
+        Optional<User> userOptional = userService.getUserById(userId);
+        if(userOptional.isEmpty()) {
             return null;
         }
-        Activity activity = ActivityMapper.fromRequest(activityRequest);
+        User user = userOptional.get();
+        Activity activity =  activityMapper.fromRequest(activityRequest); // ActivityMapper1.fromRequest(activityRequest);
         user.addActivity(activity);
-        return  ActivityMapper.toResponse(activityRepository.save(activity));
+        return activityMapper.toResponse(activityRepository.save(activity)); // ActivityMapper1.toResponse(activityRepository.save(activity));
     }
 
     @Transactional
@@ -57,7 +59,7 @@ public class ActivityService {
                 .build();
         user.addActivity(activity);
 
-        return  ActivityMapper.toResponse(activityRepository.save(activity));
+        return  activityMapper.toResponse(activityRepository.save(activity)); // ActivityMapper1.toResponse(activityRepository.save(activity));
     }
 
 
