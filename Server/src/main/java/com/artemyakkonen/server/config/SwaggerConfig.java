@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 ))
                 .info(
                         new Info()
-                                .title("My Server API")
+                                .title("Server API")
                 );
     }
 }

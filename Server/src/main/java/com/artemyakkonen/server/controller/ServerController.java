@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "my_server_methods") // Адрес сваггера: swagger-ui.html
+@Tag(name = "server_methods") // Адрес сваггера: localhost:8081/swagger-ui.html
 @Slf4j
 @RestController
 @RequestMapping("/server_api")
@@ -47,6 +47,12 @@ public class ServerController {
        return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @Operation(
+            summary = "Получить список активных пользователей",
+            description = "Возвращает DTO активных пользователей, " +
+                          "логирует попытку получить пользователей, " +
+                          "сохраняет информацию об активности пользователя-администратора в базу"
+    )
     @GetMapping("/users/active")
     public ResponseEntity<List<UserResponse>> getActiveUsers() {
         log.info(AnsiColors.blackOnBlue("Get active users"));
