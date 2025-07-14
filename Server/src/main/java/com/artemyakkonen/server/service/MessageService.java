@@ -27,11 +27,11 @@ public class MessageService {
     }
 
     public List<MessageResponse> getMessagesByUserId(Long userId) {
-        return messageMapper.toResponseList(messageRepository.findByUser_Id(userId));//messageRepository.findByUser_Id(userId).stream().map(MessageMapper1::toResponse).collect(Collectors.toList());
+        return messageMapper.toResponseList(messageRepository.findByUser_Id(userId));
     }
 
     public MessageResponse getMessageById(Long userId) {
-        return messageMapper.toResponse(messageRepository.findById(userId).orElse(null)); //MessageMapper1.toResponse(messageRepository.findById(userId).orElse(null));
+        return messageMapper.toResponse(messageRepository.findById(userId).orElse(null));
     }
 
     @Transactional
@@ -46,9 +46,9 @@ public class MessageService {
             return null;
         }
         User user = userOptional.get();
-        Message message = messageMapper.fromRequest(messageRequest); //MessageMapper1.fromRequest(messageRequest);
+        Message message = messageMapper.fromRequest(messageRequest);
         user.addMessage(message);
-        return messageMapper.toResponse(messageRepository.save(message)); //MessageMapper1.toResponse(messageRepository.save(message));
+        return messageMapper.toResponse(messageRepository.save(message));
    }
 
 

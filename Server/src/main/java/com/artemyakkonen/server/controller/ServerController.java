@@ -63,7 +63,7 @@ public class ServerController {
         activityService.saveAdminsActivity(ActivityType.GET_MESSAGES_BY_USER_ID);
 
         Optional<User> user = userService.getUserById(requestedId);
-        if(user.isPresent()) {
+        if(user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(messageService.getMessagesByUserId(requestedId));

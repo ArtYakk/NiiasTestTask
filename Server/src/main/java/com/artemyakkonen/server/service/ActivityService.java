@@ -35,9 +35,9 @@ public class ActivityService {
             return null;
         }
         User user = userOptional.get();
-        Activity activity =  activityMapper.fromRequest(activityRequest); // ActivityMapper1.fromRequest(activityRequest);
+        Activity activity =  activityMapper.fromRequest(activityRequest);
         user.addActivity(activity);
-        return activityMapper.toResponse(activityRepository.save(activity)); // ActivityMapper1.toResponse(activityRepository.save(activity));
+        return activityMapper.toResponse(activityRepository.save(activity));
     }
 
     @Transactional
@@ -59,7 +59,7 @@ public class ActivityService {
                 .build();
         user.addActivity(activity);
 
-        return  activityMapper.toResponse(activityRepository.save(activity)); // ActivityMapper1.toResponse(activityRepository.save(activity));
+        return  activityMapper.toResponse(activityRepository.save(activity));
     }
 
 

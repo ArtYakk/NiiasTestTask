@@ -4,13 +4,11 @@ import com.artemyakkonen.server.dto.UserRequest;
 import com.artemyakkonen.server.dto.UserResponse;
 import com.artemyakkonen.server.entity.User;
 import com.artemyakkonen.server.mapper.UserMapper;
-import com.artemyakkonen.server.mapper.UserMapper1;
 import com.artemyakkonen.server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -24,11 +22,11 @@ public class UserService {
     }
 
     public List<UserResponse> getAllUsers(){
-        return userMapper.toResponseList(userRepository.findAll()); //userRepository.findAll().stream().map(UserMapper1::toResponse).collect(Collectors.toList());
+        return userMapper.toResponseList(userRepository.findAll());
     }
 
     public List<UserResponse> getActiveUsers(){
-        return userMapper.toResponseList(userRepository.findByActivitiesIsNotEmpty()); //userRepository.findByActivitiesIsNotEmpty().stream().map(UserMapper1::toResponse).collect(Collectors.toList());
+        return userMapper.toResponseList(userRepository.findByActivitiesIsNotEmpty());
     }
 
     public void deleteUserById(Long id){
@@ -46,7 +44,7 @@ public class UserService {
             return Optional.empty();
         }
         User user  = userOptional.get();
-        return Optional.of(userMapper.toResponse(user));//UserMapper1.toResponse(userRepository.findByUuid(uuid).orElse(null));
+        return Optional.of(userMapper.toResponse(user));
     }
 
     @Transactional
@@ -56,7 +54,7 @@ public class UserService {
 
     @Transactional
     public UserResponse addUser(UserRequest userRequest){
-       User savedUser = userRepository.save(userMapper.fromRequest(userRequest)); //userRepository.save(UserMapper1.fromRequest(userRequest));
+       User savedUser = userRepository.save(userMapper.fromRequest(userRequest));
         return userMapper.toResponse(savedUser);
     }
 
