@@ -35,8 +35,10 @@ public class ServerController {
     }
 
     @Operation(
-            summary = "Получить пользователей из бд",
-            description = "Получает всех пользователей из базы данных"
+            summary = "Получить список пользователей",
+            description = "Возвращает DTO пользователей, " +
+                    "логирует попытку получить пользователей, " +
+                    "сохраняет информацию об активности пользователя-администратора в базу"
     )
     @GetMapping("/users")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
@@ -62,6 +64,12 @@ public class ServerController {
         return ResponseEntity.ok(userService.getActiveUsers());
     }
 
+    @Operation(
+            summary = "Получить список сообщений пользователя",
+            description = "Возвращает список DTO сообщений пользователя, " +
+                    "логирует попытку получить сообщения, " +
+                    "сохраняет информацию об активности пользователя-администратора в базу"
+    )
     @GetMapping("/messages/{requestedId}")
     public ResponseEntity<List<MessageResponse>> getMessagesByUserId(@PathVariable Long requestedId) {
         log.info(AnsiColors.blackOnBlue("Get messages of user with requested id " + requestedId));
@@ -75,6 +83,12 @@ public class ServerController {
         return ResponseEntity.ok(messageService.getMessagesByUserId(requestedId));
     }
 
+    @Operation(
+            summary = "Удалить пользователя",
+            description = "Удаляет пользователя с заданным ID, " +
+                    "логирует попытку удаления пользователя, " +
+                    "сохраняет информацию об активности пользователя-администратора в базу"
+    )
     @DeleteMapping("/users/{requestedId}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Long requestedId) {
         log.info(AnsiColors.blackOnBlue("Attempt to delete user with requested id " + requestedId));
@@ -89,6 +103,12 @@ public class ServerController {
         return ResponseEntity.notFound().build();
     }
 
+    @Operation(
+            summary = "Удалить сообщение",
+            description = "Удаляет сообщение с заданным ID, " +
+                    "логирует попытку удаления сообщения, " +
+                    "сохраняет информацию об активности пользователя-администратора в базу"
+    )
     @DeleteMapping("/messages/{requestedId}")
     public ResponseEntity<Void> deleteMessageById(@PathVariable Long requestedId) {
         log.info(AnsiColors.blackOnBlue("Attempt to delete message with requested id " + requestedId));
