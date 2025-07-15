@@ -6,6 +6,8 @@ import com.artemyakkonen.server.entity.Message;
 import com.artemyakkonen.server.entity.User;
 import com.artemyakkonen.server.mapper.MessageMapper;
 import com.artemyakkonen.server.repository.MessageRepository;
+import com.artemyakkonen.server.util.AnsiColors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MessageService {
     private final MessageRepository messageRepository;
     private final UserService userService;
@@ -27,7 +30,12 @@ public class MessageService {
     }
 
     public List<MessageResponse> getMessagesByUserId(Long userId) {
-        return messageMapper.toResponseList(messageRepository.findByUser_Id(userId));
+        List<Message> messageList = messageRepository.findByUser_Id(userId);
+        for(Message message : messageList){
+            log.info(AnsiColors.blackOnBlue(message.getId() + " " + message.getUser().getId()));
+        }
+
+        return  messageMapper.toResponseList(messageList);
     }
 
     public MessageResponse getMessageById(Long userId) {

@@ -46,7 +46,7 @@ public class ServerController {
 
         activityService.saveAdminsActivity(ActivityType.GET_ALL_USERS);
 
-       return ResponseEntity.ok(userService.getAllUsers());
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @Operation(
